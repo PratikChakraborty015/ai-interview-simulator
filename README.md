@@ -1,18 +1,18 @@
-# AI Interview Simulator (Backend)
+# AI Interview Simulator
 
-An AI-powered technical interview simulator built using **FastAPI** and **Large Language Models (LLMs)**.  
-This backend simulates a real technical interview experience by dynamically generating questions, evaluating answers, tracking performance, and producing an interview summary.
+An AI-powered technical interview simulator built with FastAPI and Large Language Models (LLMs).  
+It dynamically generates interview questions, evaluates candidate answers, and produces an interview summary with strengths, weaknesses, and an overall verdict.
 
 ---
 
 ## 🚀 Features
 
-- AI-generated interview questions
+- Dynamic interview question generation using LLMs
 - Supports multiple interview types (DSA, Backend, etc.)
-- Real-time answer evaluation with score and feedback
+- Answer evaluation with scores and feedback
 - Session-based interview tracking per user
 - Final interview summary with strengths, weaknesses, and verdict
-- REST API with Swagger documentation
+- REST APIs documented using Swagger (OpenAPI)
 
 ---
 
@@ -22,84 +22,63 @@ This backend simulates a real technical interview experience by dynamically gene
 - FastAPI
 - Pydantic
 - Uvicorn
-- LLM-based evaluation & generation
+- LLM-based question generation and evaluation
+- Git & GitHub
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ai-interview-simulator/
 │
 ├── Backend/
-│ ├── main.py # FastAPI routes & session handling
-│ ├── ai_engine.py # AI question generation & evaluation logic
-│ ├── list_models.py # Available AI models
+│   ├── main.py            # FastAPI app and API routes
+│   ├── ai_engine.py       # AI question generation & evaluation logic
+│   ├── list_models.py     # Available AI models
 │
 ├── requirements.txt
 ├── .gitignore
 └── README.md
 
-
 ---
 
-## 📌 API Endpoints
+## 🔁 Interview Flow
 
-### Get Question
-POST /get-question
-
-Generates the next interview question for the user.
-
-### Submit Answer
-POST /submit-answer
-
-Evaluates the submitted answer and returns a score and feedback.
-
-### End Interview
-POST /end-interview
-
-Returns a complete interview summary including average score and verdict.
+1. User starts an interview session
+2. AI generates an interview question
+3. User submits an answer
+4. AI evaluates the answer and assigns a score
+5. Steps 2–4 repeat for multiple questions
+6. Interview ends with a final performance summary
 
 ---
 
 ## ▶️ Run Locally
 
-```bash
-cd Backend
-pip install -r requirements.txt
-uvicorn main:app --reload
+git clone https://github.com/<your-username>/ai-interview-simulator.git  
+cd ai-interview-simulator  
 
-Open:
+pip install -r requirements.txt  
+
+uvicorn Backend.main:app --reload  
+
+Open Swagger UI at:  
 http://127.0.0.1:8000/docs
 
-🧠 How It Works
+---
 
-User starts an interview session
+## 📌 Future Improvements
 
-AI generates interview questions dynamically
+- Frontend UI (React / Next.js)
+- Voice-based interview (speech-to-text & text-to-speech)
+- AI interviewer avatar
+- Difficulty-level adaptation
+- Persistent database storage
+- User authentication and profiles
 
-User submits answers
+---
 
-AI evaluates answers and assigns scores
+## 👤 Author
 
-Performance is tracked per session
-
-A final interview summary is generated
-
-🔮 Future Improvements
-
-Frontend UI (React / Next.js)
-
-Voice-based interview (speech-to-text & text-to-speech)
-
-AI interviewer avatar
-
-Difficulty progression
-
-Database persistence
-
-Authentication
-
-👤 Author
-
-Pratik Chakraborty
-Backend Developer | Python | FastAPI | AI Systems
+Pratik Chakraborty  
+AI Interview Simulator Project
