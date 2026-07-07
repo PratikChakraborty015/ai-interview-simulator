@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Interview Simulator</title>
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e6ecf5, #f4f6f9);
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: #eee;
+    margin: 25px 0;
+}
+
+label {
+    font-weight: 600;
+}
+
+select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 16px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+#startInterviewBtn {
+    background-color: #2563eb;
+    color: white;
+}
+
+#submitAnswerBtn {
+    background-color: #16a34a;
+    color: white;
+}
+
+#nextQuestionBtn {
+    background-color: #f59e0b;
+    color: white;
+}
+
+#endInterviewBtn {
+    background-color: #dc2626;
+    color: white;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    margin-top: 10px;
+    font-family: inherit;
+}
+
+pre {
+    background-color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h1>AI Interview Simulator</h1>
+    <!-- Interview Type Selection -->
+    <label for="interviewTypeSelect"><strong>Select Interview Type:</strong></label>
+    <select id="interviewTypeSelect">
+        <option value="DSA">DSA</option>
+        <option value="AI_ML">AI / ML</option>
+        <option value="CORE_CS">Core CS</option>
+        <option value="HR">HR</option>
+        <option value="BEHAVIORAL">Behavioral</option>
+    </select>
+
+<br><br>
+
+<label>
+  <input type="checkbox" id="voiceModeToggle">
+  Enable Voice Interview Mode
+</label>
+
+<br><br>
+
+    <!-- Start Interview -->
+    <button id="startInterviewBtn">Start Interview</button>
+
+    <hr>
+
+    <!-- Question Section -->
+    <h2>Current Question</h2>
+    <div id="questionBox">
+        <p id="questionText">No question yet.</p>
+    </div>
+
+    <hr>
+
+    <!-- Answer Section -->
+    <h2>Your Answer</h2>
+    <textarea id="answerInput" rows="6" cols="60" placeholder="Type your answer here..."></textarea>
+    <br><br>
+    <br><br>
+
+    <button id="recordBtn">🎙️ Start Recording</button>
+    <span id="recordStatus"></span>
+    <button id="submitAnswerBtn">Submit Answer</button>
+
+    <br><br>
+
+    <!-- Navigation -->
+    <button id="nextQuestionBtn">Next Question</button>
+    <button id="endInterviewBtn">End Interview</button>
+
+    <hr>
+
+    <!-- Results Section -->
+    <h2>Interview Summary</h2>
+    <pre id="summaryText">No results yet.</pre>
+
+
+    <!-- JS -->
+    <script src="script.js"></script>
+
+</div>
+</body>
+</html>

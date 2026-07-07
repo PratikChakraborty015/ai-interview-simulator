@@ -1,7 +1,10 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import random
+import os
 from ai_engine import configure_gemini, evaluate_answer, generate_question
+from fastapi.middleware.cors import CORSMiddleware
 
 def deduplicate_preserve_order(items):
     seen = set()
@@ -14,13 +17,23 @@ def deduplicate_preserve_order(items):
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Temporary in-memory interview state (no DB)
 interview_sessions = {}
 
-# Configure Gemini once at startup
-configure_gemini()
-from ai_engine import warm_up_model
-warm_up_model()
+# Configure Gemini on startup (not at import time for Windows compatibility)
+@app.on_event("startup")
+async def startup_event():
+    configure_gemini()
+    from ai_engine import warm_up_model
+    warm_up_model()
 
 # -----------------------------
 # Data models
@@ -61,6 +74,7 @@ QUESTIONS = {
 def get_question(req: InterviewRequest):
     user_id = req.user_id
     interview_type = req.interview_type
+    print("DEBUG interview_type:", interview_type)
 
     if user_id not in interview_sessions:
         interview_sessions[user_id] = {
@@ -150,11 +164,7 @@ def end_interview(user_id: str):
         elif a["score"] <= 4:
             weaknesses.append(f"Needs improvement in {a['question']}")
 
-    for a in answers:
-        if a["score"] >= 7:
-            strengths.append(a["question"])
-        else:
-            weaknesses.append(a["question"])
+   
 
     if avg_score >= 7:
         verdict = "Strong performance"
@@ -163,6 +173,9 @@ def end_interview(user_id: str):
     else:
         verdict = "Needs improvement"
 
+    strengths = deduplicate_preserve_order(strengths)
+    weaknesses = deduplicate_preserve_order(weaknesses)
+    
     summary = {
         "total_questions": total_questions,
         "average_score": avg_score,
@@ -174,7 +187,11 @@ def end_interview(user_id: str):
     # Optional: clear session after interview ends
     del interview_sessions[user_id]
 
-    strengths = deduplicate_preserve_order(strengths)
-    weaknesses = deduplicate_preserve_order(weaknesses)
+    
 
     return summary
+
+
+# Mount frontend static files at the end (after all API routes)
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "Frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
